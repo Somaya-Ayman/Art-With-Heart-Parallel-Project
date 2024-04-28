@@ -1,0 +1,157 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Home{% endblock title %}
+
+{% block banner_slider %}
+<div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active bg-warning" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" class="bg-warning" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" class="bg-warning" aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" class="bg-warning" aria-label="Slide 2"></button>
+      </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active " data-bs-interval="4000">
+        <img src="{% static 'app/images/banner/b1.jpg'%}" class="d-block w-100" alt="banner image">
+      </div>
+      <div class="carousel-item" data-bs-interval="4000">
+        <img src="{% static 'app/images/banner/b2.jpg'%}" class="d-block w-100" alt="banner image">
+      </div>
+      <div class="carousel-item" data-bs-interval="4000">
+        <img src="{% static 'app/images/banner/b3.jpg'%}" class="d-block w-100" alt="banner image">
+      </div>
+      <div class="carousel-item" data-bs-interval="4000">
+        <img src="{% static 'app/images/banner/b4.jpg'%}" class="d-block w-100" alt="banner image">
+      </div>
+    </div>
+    <button class="carousel-control-prev " type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon " aria-hidden="true"></span>
+      <span ></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+      <span class="carousel-control-next-icon " aria-hidden="true"></span>
+      <span ></span>
+    </button>
+  </div>
+{% endblock banner_slider %}
+{% block information %}
+<div class="container">
+  <div class="row bg-danger text-center p-5 text-white border-bottom shadow">
+    <h1>Products</h1>
+    <small class="fs-5">
+      ArtWithHeart shop offere a wide range of drawing tools in addition to various eye-catching artworks!
+    </small>
+    </div>
+  </div>
+  {% endblock information %}
+
+{% block main-content %}
+   <div class="container">
+    <h2 class="text-center">Our products</h2>
+    <br><br>
+    <div class="row container">
+      <div class = "col-md-4 col-sm-4 mi-go wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.6s"
+      style="animation-duration: 1s; animation-delay: 0.6s; 
+      animation-name: none;">
+      <div class="goodnesssec buttermilk smbg">
+        <a href="#">
+          <div class="goodnessseccont text-center">
+            <img src="{%static 'app/images/product/birdsSing.png'%}" class="img-responsive" alt="">
+            <p class="mlkpro">Singing birds</p>
+            </div>
+          </a>
+        </div>
+
+      </div>
+      
+     
+      
+
+      
+     
+        <div class = "col-md-4 col-sm-4 mi-go wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.6s"
+        style="animation-duration: 1s; animation-delay: 0.6s; 
+        animation-name: none;">
+        <div class="goodnesssec buttermilk curdbgpro">
+          <a href="#">
+            <div class="goodnessseccont text-center">
+              <img src="{%static 'app/images/product/colorfulGraffiti.png'%}" class="img-responsive center-block" alt="">
+              <p class="mlkpro">Awesome graffiti</p>
+              </div>
+            </a>
+          </div>
+          
+        </div>
+        
+        
+          <div class = "col-md-4 col-sm-4 mi-go wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.6s"
+          style="animation-duration: 1s; animation-delay: 0.6s; 
+          animation-name: none;">
+          <div class="goodnesssec buttermilk buttermilk">
+            <a href="#">
+              <div class="goodnessseccont text-center">
+                <img src="{%static 'app/images/product/polychromousPencils.png'%}" class="img-responsive center-block" alt="">
+                <p class="mlkpro">Polychromous Artists' Pencils</p>
+                </div>
+              </a>
+            </div>
+            
+        
+  
+        </div>
+       </div>
+       <br><br>
+       <div class="row container">
+         <div class = "col-md-4 col-sm-4 mi-go wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.6s"
+         style="animation-duration: 1s; animation-delay: 0.6s; 
+         animation-name: none;">
+         <div class="goodnesssec buttermilk smbg">
+           <a href="#">
+             <div class="goodnessseccont text-center">
+               <img src="{%static 'app/images/product/colorfulhorse.png'%}" class="img-responsive" alt="">
+               <p class="mlkpro">colorful horse</p>
+               </div>
+             </a>
+           </div>
+   
+         </div>
+         
+        
+         
+   
+         
+        
+           <div class = "col-md-4 col-sm-4 mi-go wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.6s"
+           style="animation-duration: 1s; animation-delay: 0.6s; 
+           animation-name: none;">
+           <div class="goodnesssec buttermilk curdbgpro">
+             <a href="#">
+               <div class="goodnessseccont text-center">
+                 <img src="{%static 'app/images/product/popArt.png'%}" class="img-responsive center-block" alt="">
+                 <p class="mlkpro">pop art canvas</p>
+                 </div>
+               </a>
+             </div>
+             
+           </div>
+           
+           
+             <div class = "col-md-4 col-sm-4 mi-go wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.6s"
+             style="animation-duration: 1s; animation-delay: 0.6s; 
+             animation-name: none;">
+             <div class="goodnesssec buttermilk buttermilk">
+               <a href="#">
+                 <div class="goodnessseccont text-center">
+                   <img src="{%static 'app/images/product/abstractArt.png'%}" class="img-responsive center-block" alt="">
+                   <p class="mlkpro">Abstract art canvas</p>
+                   </div>
+                 </a>
+               </div>
+               
+           
+     
+           </div>
+          </div>
+   </div>
+   <br/><br/>
+{% endblock main-content %}
