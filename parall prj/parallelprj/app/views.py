@@ -1,14 +1,19 @@
 
 from django.db.models import Count
+from django.http import JsonResponse
 from django.shortcuts import render,redirect
 from django.views import View
-from . models import Product
+from . models import Product,Payment
 from .models import Customer,Cart,Product
 from . forms import CustomerRegistrationForm, CustomerProfileForm
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.shortcuts import redirect
-
+from django.db.models import Q
+import razorpay
+from django.conf import settings
+import requests
+import json
 
 
 
@@ -123,5 +128,100 @@ def show_cart(request) :
     totalamount = amount + 50
     return render (request,'app/addtocart.html',locals ())
 
+class checkout(View):
+    def get(self, request):
+        add = Customer.objects.filter(user=request.user)
+        cart_items = Cart.objects.filter(user=request.user)
+        amount = 0
+        for p in cart_items:
+            value = p.quantity * p.product.discounted_price
+            amount += value
+        totalamount = amount + 50
+        razoramount = int(totalamount * 100)
+        
+        url = "https://google.serper.dev/search"
+        payload = json.dumps({"q": "apple inc"})
+        headers = {
+            'X-API-KEY': '8a765ffb1c83c3f5af8f3fec5799c5a723c650bd',
+            'Content-Type': 'application/json'
+        }
+        
+        payment_response = requests.post(url, headers=headers, data=payload)
+        print(payment_response.text)
+        
+        if payment_response.status_code == 200:
+            payment_data = payment_response.json()
+            order_id = payment_data.get('id')
+            order_status = payment_data.get('status')
+            if order_id and order_status == 'created':
+                payment = Payment(
+                    user=request.user,
+                    amount=totalamount,
+                    razorpay_order_id=order_id,
+                    razorpay_payment_status=order_status
+                )
+                payment.save()
+        
+        return render(request, 'app/checkout.html', locals())
 
+
+def plus_cart(request):
+    if request.method == 'GET':
+        prod_id=request.GET['prod_id']
+        c=Cart.objects.get(Q(product=prod_id) & Q(user=request.user)) # must be a login user
+        c.quantity+=1
+        c.save()
+        user = request.user
+        cart = Cart.objects.filter(user=user)
+        amount=0
+        for p in cart:
+            value = p.quantity * p.product.discounted_price
+            amount = amount+ value
+        totalamount = amount + 50
+        data={
+            'quantity':c.quantity,
+            'amount':amount,
+            'totalamount':totalamount
+        }
+        return JsonResponse(data)
+    
+    
+def minus_cart(request):
+    if request.method == 'GET':
+        prod_id=request.GET['prod_id']
+        c=Cart.objects.get(Q(product=prod_id) & Q(user=request.user)) # must be a login user
+        c.quantity-=1
+        c.save()
+        user = request.user
+        cart = Cart.objects.filter(user=user)
+        amount=0
+        for p in cart:
+            value = p.quantity * p.product.discounted_price
+            amount = amount+ value
+        totalamount = amount + 50
+        data={
+            'quantity':c.quantity,
+            'amount':amount,
+            'totalamount':totalamount
+        }
+        return JsonResponse(data)
+    
+    
+def remove_cart(request):
+     if request.method == 'GET':
+        prod_id=request.GET['prod_id']
+        c=Cart.objects.get(Q(product=prod_id) & Q(user=request.user)) # must be a login user
+        c.delete()
+        user = request.user
+        cart = Cart.objects.filter(user=user)
+        amount=0
+        for p in cart:
+            value = p.quantity * p.product.discounted_price
+            amount = amount+ value
+        totalamount = amount + 50
+        data={
+            'amount':amount,
+            'totalamount':totalamount
+        }
+        return JsonResponse(data)
 
