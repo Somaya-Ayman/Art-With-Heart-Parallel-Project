@@ -55,7 +55,7 @@
     </div>
 </div>
 {% block payment-gateway %}
-<script src="https://google.serper.dev/search">
+<script>
    <button id="rzp-button1">Pay</button>
 var options = {
     "key": "rzp_test2jbhjojp", // Enter the Key ID generated from the Dashboard
@@ -92,6 +92,7 @@ rzp1.on('payment.failed', function (response){
         //alert(response.error.reason);
         //alert(response.error.metadata.order_id);
         //alert(response.error.metadata.payment_id);
+        window.location.href='http://localhost:8000/paymentdone?order_id=${response.razorpay_order_id}&payment_id=${response.razorpay_payment_id}&cust_id=${form.elements["cust_id"].value}'
 });
 document.getElementById('rzp-button1').onclick = function(e){
     rzp1.open();
