@@ -223,7 +223,7 @@ def show_wishlist(request):
     if request.user.is_authenticated:
         totalitem = len(Cart.objects.filter(user=request.user))
         wishitem = len(Wishlist.objects.filter(user=request.user))
-    product = Wishlist.objects.filter(user=user)
+    wishlist = Wishlist.objects.filter(user=user)
     return render(request,'app/wishlist.html',locals ())
 
 @method_decorator(login_required,name='dispatch')
