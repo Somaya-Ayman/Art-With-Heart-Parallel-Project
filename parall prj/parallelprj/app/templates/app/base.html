@@ -77,19 +77,19 @@
               <li> <a class="dropdown-item" href="{% url 'passwordchange' %}">Change Password</a></li>
               <form action="{% url 'logout' %}" method="post">
                 {% csrf_token %}
-                <button type="submit">Logout</button>
+                <button type="submit" class="dropdown-item" style="color: red;" >Logout</button>
             </form>
             </ul>
           </li>
-
+          
           <li class="nav-item mx-2">
-            <a href="{% url 'showcart' %}" class="nav-link text-white">
-              Cart <span class="badge bg-dark">{% if totalitems > 0 %} {{totalitems}} {% endif %}</span> 
+            <a href="{% url 'showcart' %}" class="nav-link text-white"> Cart <span class="badge bg-dark">{% if totalitems > 0 %} {{totalitems}} {% endif %}</span> 
             </a>
           </li>
 
+
           <li class="nav-item mx-2">
-            <a href="#" class="nav-link text-white">
+            <a href="{% url 'showwishlist' %}" class="nav-link text-white">
               <i class="fa fa-heart"></i>
               <span class="badge bg-dark">{% if wishitem > 0 %} {{wishitem}} {% endif %}</span>
             </a>
