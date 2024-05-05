@@ -1,5 +1,7 @@
 from django.contrib import admin # type: ignore
 from . models import Product, Customer,Cart,Payment,OrderPlaced,Wishlist
+from django.utils.html import format_html
+from django.urls import reverse
 # Register your models here.
 
 
@@ -11,6 +13,9 @@ class ProductModelAdmin(admin.ModelAdmin):
 @admin.register(Customer)
 class CustomerModelAdmin(admin.ModelAdmin):
     list_display=['id','user','locality','city','state','zipcode']
+    def products(self,obj):
+        link = reverse("admin:app_product_change",args=[obj.product.pk])
+        return format_html('<a href="{}">{}</a>', link, obj.product.title)
 
 
 @admin. register (Cart)
@@ -31,3 +36,7 @@ class OrderPlacedModelAdmin(admin.ModelAdmin):
 @admin.register(Wishlist)
 class WishlistModelAdmin(admin.ModelAdmin):
     list_display = ['id', 'user', 'product']
+    def products(self,obj):
+        link = reverse("admin:app_product_change",args=[obj.product.pk])
+        return format_html('<a herf="{}">{}</a>',link,obj.product.title)
+
