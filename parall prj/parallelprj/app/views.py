@@ -16,6 +16,9 @@ import requests
 import json
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
+
 
 
 # Create your views here.
@@ -228,14 +231,8 @@ def show_wishlist(request):
     wishlist = Wishlist.objects.filter(user=user)
     return render(request,'app/wishlist.html',locals ())
 
-@method_decorator(login_required,name='dispatch')
 class checkout(View):
     def get(self,request):
-        totalitems = 0
-        wishitem = 0
-        if request.user.is_authenticated:
-            wishitem = len(Wishlist.objects.filter(user=request.user))
-            totalitems = len(Cart.objects.filter(user=request.user))
         add = Customer.objects.filter(user=request.user)
         cart_items = Cart.objects.filter(user=request.user)
         amount = 0
@@ -244,39 +241,29 @@ class checkout(View):
             amount = amount + value
         totalamount = amount + 50
         razoramount = int(totalamount*100)
-       # client = razorpay.Client(auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
-       # data ={"amount": razoramount,"currency": "INR", "receipt": "order_rcptid11"}
-       # payment_response = client.order.create(data=data)
-       # print(payment_response)
-       # order_id = payment_response['id']
-       # order_status = payment_response['status']
-       # if order_status =='created':
-        #    payment=Payment(
-         #       user=request.user,
-          #      amount=totalamount,
-           #     razorpay_order_id=order_id,
-            #    razorpay_payment_status= order_status
-            #)
-            #payment.save()
         return render(request, 'app/checkout.html', locals())
+    
+
 @login_required
 def payment_done(request):
-    order_id=request.GET.get('order_id')
-    payment_id=request.Get.get('payment_id')
-    cust_id=request.GET.get(id=cust_id)
-    user=request.user
-    customer=Customer.objects.get(id=cust_id)
-    #update payment status
-    payment=Payment.objects.get(razorpay_order_id=order_id)
-    payment.paid=True
-    payment.razorpay_payment_id=payment_id
-    payment.save()
-    #save order details
-    cart=Cart.objects.filter(user=user)
-    for c in cart:
-        OrderPlaced(user=user,customer=customer,Product=c.product,quantity=c.quantity,payement=payment).save()
-        c.delete()
-    return redirect("orders")
+    if request.method == 'POST':
+        credit_card = request.POST.get('credit_card')
+        user_id = request.POST.get('user_id')      
+        # Save payment information
+        payment = Payment.objects.create(credit_card=credit_card, user_id=user_id) 
+        # Save order details
+        user = request.user
+        customer = Customer.objects.get(user=user)
+        cart = Cart.objects.filter(user=user)
+        for c in cart:
+            OrderPlaced.objects.create(user=user, customer=customer, product=c.product, quantity=c.quantity, payment=payment)
+            c.delete()
+        
+        return redirect("orders")
+    else:
+        return redirect("checkout")
+
+
 
 @login_required
 def orders(request):
@@ -287,6 +274,7 @@ def orders(request):
         totalitems = len(Cart.objects.filter(user=request.user))
     order_placed = OrderPlaced.objects.filter(user=request.user)
     return render(request, 'app/orders.html', locals())
+
 
 @login_required
 def plus_cart(request):
