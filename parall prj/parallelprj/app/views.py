@@ -196,8 +196,10 @@ def add_to_cart(request) :
     user = request.user
     product_id=request.GET.get('prod_id')
     product = Product.objects.get (id=product_id)
+    if Cart.objects.filter(user=user, product=product).exists():
+        return redirect("/cart")
     Cart(user=user, product=product).save()
-    return redirect("/cart")    
+    return redirect("/cart")
 
 @login_required
 def show_cart(request) :
@@ -314,8 +316,7 @@ def minus_cart(request):
         c=Cart.objects.get(Q(product=prod_id) & Q(user=request.user)) # must be a login user
         c.quantity-=1
         c.save()
-        user = request.user
-        cart = Cart.objects.filter(user=user)
+        cart = Cart.objects.filter(user=request.user)
         amount=0
         for p in cart:
             value = p.quantity * p.product.discounted_price
