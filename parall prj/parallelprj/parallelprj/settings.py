@@ -87,6 +87,26 @@ DATABASES = {
     },
 }
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': 'project_database',
+#        'USER': 'postgres',
+#        'PASSWORD': 'mariam',
+#        'HOST': 'localhost',
+#        'PORT':'5432'
+#    },
+#   'project_database2': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': 'project_database2',
+#        'USER': 'postgres',
+#        'PASSWORD': 'mariam',
+#        'HOST': 'localhost',
+#        'PORT':'5432'
+#    },
+#   
+#}
+
 #DATABASE_ROUTERS = ['routers.ProductRouter'],
 
 
