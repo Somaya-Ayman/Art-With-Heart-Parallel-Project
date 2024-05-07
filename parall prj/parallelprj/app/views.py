@@ -135,10 +135,9 @@ class ProfileView(View):
             state = form.cleaned_data['state']
             zipcode= form.cleaned_data['zipcode']
             reg= Customer(user=user,name=name,locality=locality,mobile=mobile, city=city,state=state,zipcode=zipcode)
-         #######################
+         
             reg.save()
 
-        ###########################    
             messages.success(request,"Congratulatiobs! Profile is saved Successfully!")
         else:
             messages.warning(request, "Invalid Data!")
@@ -181,9 +180,8 @@ class updateAddress(View):
             add.mobile = form.cleaned_data['mobile']
             add.state = form. cleaned_data['state']
             add.zipcode = form. cleaned_data['zipcode']
-            #########################
             add.save()
-            ########################
+
             messages.success (request, "Congratulations ! Profile Update Successfully")
         else:
             messages. warning(request, "Invalid Input Data")

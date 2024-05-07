@@ -36,7 +36,8 @@ class Product(models.Model):
     product_image = models.ImageField(upload_to='product')
     def __str__(self):
        return self.title
-    
+
+
 
 class Customer(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
